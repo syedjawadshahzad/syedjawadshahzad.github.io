@@ -1,0 +1,100 @@
+/* css styles */
+h1 { margin-bottom: 0.2rem; }
+p { line-height: 1.6; }
+
+.callout-note {
+  border-radius: 14px;
+}
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+.wp-cite {
+  max-width: 100%;
+}
+
+.wp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 0.15rem;
+}
+
+.wp-citation {
+  font-size: 0.92rem;
+  color: #222;
+  line-height: 1.45;
+}
+
+.wp-type {
+  color: #555;
+}
+
+.wp-links a {
+  margin-left: 0.6rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.wp-abstract summary {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.wp-abstract p {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* References section */
+#refs {
+  font-size: 1.0em;  /* Options: 0.75em (very small), 0.85em (small), 0.9em (slightly small), 1em (normal) */
+}
+
+#refs div {
+  margin-bottom: 0.1rem;      /* Space between references */
+  padding-left: 0.1rem;       /* Indent for hanging references */
+  text-indent: -2.0rem;       /* Creates hanging indent effect */
+  line-height: 1;           /* Line spacing within references */
+}
+
+/* DOI link → "Journal" */
+#refs a[href^="https://doi"] {
+  font-size: 0;
+}
+#refs a[href^="https://doi"]::before {
+  content: "Journal";
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+/* SSRN link → "SSRN (PDF)" */
+#refs a[href*="ssrn.com"] {
+  font-size: 0;
+}
+#refs a[href*="ssrn.com"]::before {
+  content: "SSRN";
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+/* Reduce excessive side margins globally */
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-xl {
+    max-width: 1100px;
+  }
+}
+
+/* Full-width pages (page-layout: full) */
+.page-layout-full .container,
+.page-layout-full .container-fluid {
+  max-width: 100% !important;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
