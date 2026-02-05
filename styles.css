@@ -1,0 +1,269 @@
+/* css styles */
+h1 { margin-bottom: 0.2rem; }
+p { line-height: 1.6; }
+
+.callout-note {
+  border-radius: 14px;
+}
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+
+.wp-cite {
+  max-width: 100%;
+}
+
+.wp-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 0.15rem;
+}
+
+.wp-citation {
+  font-size: 0.92rem;
+  color: #222;
+  line-height: 1.45;
+}
+
+.wp-type {
+  color: #555;
+}
+
+.wp-links a {
+  margin-left: 0.6rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.wp-abstract summary,
+.wp-code summary {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.wp-abstract,
+.wp-code {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.wp-abstract p,
+.wp-code p {
+  margin-top: 0.4rem;
+  font-size: 0.92rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.wp-code a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.wp-code a:hover {
+  text-decoration: underline;
+}
+
+/* References section */
+#refs {
+  font-size: 1.0em;  /* Options: 0.75em (very small), 0.85em (small), 0.9em (slightly small), 1em (normal) */
+}
+
+#refs div {
+  margin-bottom: 0.1rem;      /* Space between references */
+  padding-left: 0.1rem;       /* Indent for hanging references */
+  text-indent: -2.0rem;       /* Creates hanging indent effect */
+  line-height: 1;           /* Line spacing within references */
+}
+
+/* DOI link → "Journal" */
+#refs a[href^="https://doi"] {
+  font-size: 0;
+}
+#refs a[href^="https://doi"]::before {
+  content: "Journal";
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+/* SSRN link → "SSRN (PDF)" */
+#refs a[href*="ssrn.com"] {
+  font-size: 0;
+}
+#refs a[href*="ssrn.com"]::before {
+  content: "SSRN";
+  font-size: 1rem;
+  text-decoration: underline;
+}
+
+/* Reduce excessive side margins globally */
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-xl {
+    max-width: 1100px;
+  }
+}
+
+/* Full-width pages (page-layout: full) */
+.page-layout-full .container,
+.page-layout-full .container-fluid {
+  max-width: 100% !important;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* ========== HOME PAGE HERO SECTION ========== */
+.hero-section {
+  text-align: center;
+  padding: 2rem 1rem 1.5rem 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: #2c3e50;
+}
+
+.hero-section h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #5a6c7d;
+  margin-bottom: 0.5rem;
+}
+
+.hero-tagline {
+  font-size: 1.05rem;
+  color: #555;
+  max-width: 700px;
+  margin: 1rem auto;
+  line-height: 1.6;
+}
+
+.hero-links {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hero-links .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hero-links .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-decoration: none;
+}
+
+/* ========== INFO CARDS ========== */
+.info-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  height: 100%;
+}
+
+.info-card h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
+
+.info-card ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
+}
+
+.info-card li {
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* ========== RESEARCH INTERESTS ========== */
+.research-interests {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.research-interests h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.interest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.interest-tags code {
+  background: #e8f4f8;
+  color: #2980b9;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #b8daff;
+}
+
+/* Dark mode adjustments */
+.quarto-dark .hero-section {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.quarto-dark .hero-section h1 {
+  color: #ecf0f1;
+}
+
+.quarto-dark .hero-section h3 {
+  color: #bdc3c7;
+}
+
+.quarto-dark .hero-tagline {
+  color: #aaa;
+}
+
+.quarto-dark .info-card {
+  background: #1e1e1e;
+  border-color: #333;
+}
+
+.quarto-dark .info-card h3 {
+  color: #ecf0f1;
+}
+
+.quarto-dark .info-card li {
+  color: #bbb;
+}
+
+.quarto-dark .interest-tags code {
+  background: #1a3a5c;
+  color: #7ec8e3;
+  border-color: #2a5a8c;
+}
