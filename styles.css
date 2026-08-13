@@ -1,14 +1,259 @@
-/* css styles */
-h1 { margin-bottom: 0.2rem; }
-p { line-height: 1.6; }
+/* =========================================================
+   1. GLOBAL / BASE STYLES
+   ========================================================= */
+
+h1 {
+  margin-bottom: 0.2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  border-radius: 0;
+}
+
+main.content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: 0;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   2. LAYOUT & CONTAINERS
+   ========================================================= */
+
+/* Reduce excessive side margins globally */
+@media (min-width: 1200px) {
+  .container,
+  .container-lg,
+  .container-xl {
+    max-width: 1100px;
+  }
+}
+
+/* Full-width pages */
+.page-layout-full .container,
+.page-layout-full .container-fluid {
+  max-width: 100% !important;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+
+/* =========================================================
+   3. GENERAL COMPONENTS
+   ========================================================= */
 
 .callout-note {
   border-radius: 14px;
 }
 
-a { text-decoration: none; }
-a:hover { text-decoration: underline; }
 
+/* =========================================================
+   4. HOME PAGE — HERO SECTION
+   ========================================================= */
+
+.hero-section {
+  text-align: center;
+  padding: 2rem 1rem 1.5rem 1rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  color: #2c3e50;
+}
+
+.hero-section h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #5a6c7d;
+  margin-bottom: 0.5rem;
+}
+
+.hero-tagline {
+  max-width: 800px;
+  margin: 1.5rem auto;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #495057;
+}
+
+.hero-links {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.hero-links .btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.hero-links .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   5. HOME PAGE — INFO CARDS & PROFILE
+   ========================================================= */
+
+.info-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin: 0.5rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  height: 100%;
+}
+
+.info-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  margin-bottom: 1.25rem;
+  padding-bottom: .6rem;
+  border-bottom: 3px solid #3b82f6;
+}
+
+.info-card p {
+  margin-bottom: 1rem;
+}
+
+.info-card strong {
+  display: block;
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.info-card em {
+  font-style: italic;
+}
+
+.profile-item {
+  margin-bottom: 1.2rem;
+  padding-left: 1rem;
+  border-left: 3px solid #dbeafe;
+}
+
+.profile-item:last-child {
+  margin-bottom: 0;
+}
+
+.profile-title {
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: .2rem;
+}
+
+.profile-subtitle {
+  color: #6b7280;
+  line-height: 1.5;
+  font-size: .95rem;
+}
+
+.profile-text {
+  text-align: justify;
+  line-height: 1.85;
+  font-size: 1.05rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+
+/* =========================================================
+   6. HOME PAGE — RESEARCH INTERESTS
+   ========================================================= */
+
+.research-interests {
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+}
+
+.research-interests h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.interest-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.interest-tags code {
+  background: #e8f4f8;
+  color: #2980b9;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #b8daff;
+}
+
+
+/* =========================================================
+   7. HOME PAGE — BUTTONS & ICONS
+   ========================================================= */
+
+.homepage-button {
+  display: inline-block;
+  padding: 12px 20px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  background: #e6e6e6;
+  color: #222;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.homepage-button:hover {
+  background: #d8d8d8;
+  color: #000;
+}
+
+.bi {
+  font-size: 1.6rem;
+}
+
+.bi:hover {
+  color: #000;
+}
+
+
+/* =========================================================
+   8. PUBLICATIONS — CITATION / REFERENCE STYLES
+   ========================================================= */
 
 .wp-cite {
   max-width: 100%;
@@ -68,171 +313,401 @@ a:hover { text-decoration: underline; }
   text-decoration: underline;
 }
 
-/* References section */
+
+/* =========================================================
+   9. REFERENCES
+   ========================================================= */
+
 #refs {
-  font-size: 1.0em;  /* Options: 0.75em (very small), 0.85em (small), 0.9em (slightly small), 1em (normal) */
+  font-size: 1em;
 }
 
 #refs div {
-  margin-bottom: 0.1rem;      /* Space between references */
-  padding-left: 0.1rem;       /* Indent for hanging references */
-  text-indent: -2.0rem;       /* Creates hanging indent effect */
-  line-height: 1;           /* Line spacing within references */
+  margin-bottom: 0.1rem;
+  padding-left: 0.1rem;
+  text-indent: -2rem;
+  line-height: 1;
 }
 
-/* DOI link → "Journal" */
+/* DOI → Journal */
 #refs a[href^="https://doi"] {
   font-size: 0;
 }
+
 #refs a[href^="https://doi"]::before {
   content: "Journal";
   font-size: 1rem;
   text-decoration: underline;
 }
 
-/* SSRN link → "SSRN (PDF)" */
+/* SSRN → SSRN */
 #refs a[href*="ssrn.com"] {
   font-size: 0;
 }
+
 #refs a[href*="ssrn.com"]::before {
   content: "SSRN";
   font-size: 1rem;
   text-decoration: underline;
 }
 
-/* Reduce excessive side margins globally */
-@media (min-width: 1200px) {
-  .container,
-  .container-lg,
-  .container-xl {
-    max-width: 1100px;
-  }
+
+/* =========================================================
+   10. PUBLICATIONS — DASHBOARD / STATISTICS
+   ========================================================= */
+
+.pub-dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 0.3rem 0 1rem;
 }
 
-/* Full-width pages (page-layout: full) */
-.page-layout-full .container,
-.page-layout-full .container-fluid {
-  max-width: 100% !important;
-  padding-left: 2rem;
-  padding-right: 2rem;
+.pub-stat {
+  border: 1px solid var(--jw-line);
+  border-radius: 18px;
+  padding: 0.8rem;
+  background: linear-gradient(
+    135deg,
+    rgba(248,250,252,0.94),
+    rgba(241,245,249,0.72)
+  );
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
 
-/* ========== HOME PAGE HERO SECTION ========== */
-.hero-section {
-  text-align: center;
-  padding: 2rem 1rem 1.5rem 1rem;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
+.pub-stat span {
+  display: block;
+  font-size: 1.7rem;
+  font-weight: 750;
+  line-height: 1;
 }
 
-.hero-section h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
-  color: #2c3e50;
-}
-
-.hero-section h3 {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #5a6c7d;
-  margin-bottom: 0.5rem;
-}
-
-.hero-tagline {
-  font-size: 1.05rem;
-  color: #555;
-  max-width: 700px;
-  margin: 1rem auto;
-  line-height: 1.6;
-}
-
-.hero-links {
-  margin-top: 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.hero-links .btn {
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.hero-links .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  text-decoration: none;
-}
-
-/* ========== INFO CARDS ========== */
-.info-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 1.25rem;
-  margin: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  height: 100%;
-}
-
-.info-card h3 {
-  font-size: 1.1rem;
+.pub-stat small {
+  color: var(--bs-secondary-color, var(--jw-muted));
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #3498db;
 }
 
-.info-card ul {
-  padding-left: 1.2rem;
-  margin-bottom: 0;
-}
 
-.info-card li {
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
-  color: #444;
-}
+/* =========================================================
+   11. PUBLICATIONS — SEARCH & FILTERS
+   ========================================================= */
 
-/* ========== RESEARCH INTERESTS ========== */
-.research-interests {
-  text-align: center;
-  margin-top: 1.5rem;
+.pub-controls,
+.word-cloud-panel {
+  border: 1px solid var(--jw-line);
+  border-radius: var(--jw-radius);
   padding: 1rem;
+  padding-top: 0.4rem;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+  margin-bottom: 0.75rem;
 }
 
-.research-interests h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin-bottom: 1rem;
+.pub-search-box label,
+.pub-filter-grid label {
+  display: block;
+  font-weight: 750;
+  font-size: 0.88rem;
+  margin-bottom: 0.35rem;
 }
 
-.interest-tags {
+#pub-search,
+.pub-filter-grid select {
+  width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  border-radius: 14px;
+  padding: 0.72rem 0.85rem;
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #0f172a);
+}
+
+.pub-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(140px, 1fr));
+  gap: 0.8rem;
+  align-items: end;
+  margin-top: 0.9rem;
+}
+
+.pub-reset-btn,
+.keyword-clear {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.68rem 1rem;
+  font-weight: 800;
+  background: #0f172a;
+  color: white;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   12. PUBLICATIONS — WORD CLOUD / KEYWORDS
+   ========================================================= */
+
+.word-cloud-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.1rem !important;
+}
+
+.word-cloud-head h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.word-cloud {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.62rem;
+  min-height: auto;
 }
 
-.interest-tags code {
-  background: #e8f4f8;
-  color: #2980b9;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border: 1px solid #b8daff;
+.word-cloud-item,
+.pub-keyword {
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 999px;
+  padding: 0.20rem 0.55rem;
+  background: rgba(59, 130, 246, 0.08);
+  color: #1d4ed8;
+  cursor: pointer;
+  font-weight: 650;
+  font-size: 0.82rem;
+  transition:
+    transform 0.16s ease,
+    background 0.16s ease,
+    color 0.16s ease;
 }
 
-/* Dark mode adjustments */
+.word-cloud-item span {
+  font-size: 0.75rem;
+}
+
+.word-cloud-item:hover,
+.pub-keyword:hover {
+  transform: translateY(-1px);
+}
+
+.word-cloud-item.active {
+  background: #1d4ed8;
+  color: white;
+}
+
+.active-filter-note {
+  min-height: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--bs-secondary-color, var(--jw-muted));
+  margin: 0.5rem 0 1rem;
+}
+
+
+/* =========================================================
+   13. PUBLICATIONS — PUBLICATION CARDS
+   ========================================================= */
+
+.publication-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pub-card {
+  border: 1px solid var(--jw-line);
+  border-radius: var(--jw-radius);
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
+}
+
+.pub-card-topline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.pub-year {
+  font-weight: 900;
+  color: var(--bs-body-color, var(--jw-ink));
+}
+
+.pub-card h3 {
+  margin: 0.3rem 0 0.45rem;
+  font-size: 1.06rem;
+  line-height: 1.1;
+}
+
+.pub-authors,
+.pub-venue {
+  color: var(--bs-secondary-color, #475569);
+  margin-bottom: 0.2rem;
+  line-height: 1.35;
+}
+
+.pub-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin-top: 0.35rem;
+}
+
+.pub-keyword {
+  font-size: 0.78rem;
+  padding: 0.26rem 0.54rem;
+}
+
+.pub-links {
+  margin-top: 0.25rem;
+}
+
+.pub-links a {
+  display: inline-block;
+  margin-right: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #475569 !important;
+  text-decoration: none;
+}
+
+.pub-links a:hover {
+  color: #1d4ed8 !important;
+  text-decoration: underline;
+}
+
+.pub-empty {
+  border: 1px dashed rgba(148, 163, 184, 0.55);
+  border-radius: 18px;
+  padding: 1.5rem;
+  color: var(--bs-secondary-color, var(--jw-muted));
+}
+
+
+/* =========================================================
+   14. PUBLICATIONS — BADGES
+   ========================================================= */
+
+/* Unified blue-shade badge palette
+   Darkest → Published
+   Medium  → Working
+   Light   → ABS
+   Lightest → Scopus
+*/
+
+.pub-badge {
+  display: inline-block;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 850;
+  padding: 0.24rem 0.52rem;
+}
+
+.type-published {
+  background: rgba(30, 58, 138, 0.18) !important;
+  color: #1e3a8a !important;
+}
+
+.type-working {
+  background: rgba(37, 99, 235, 0.13) !important;
+  color: #1d4ed8 !important;
+}
+
+.abs-badge {
+  background: rgba(59, 130, 246, 0.13) !important;
+  color: #2563eb !important;
+}
+
+.scopus-badge {
+  background: rgba(96, 165, 250, 0.18) !important;
+  color: #1e40af !important;
+}
+
+
+/* =========================================================
+   15. LISTING / BLOG CATEGORIES
+   ========================================================= */
+
+.listing-category,
+.quarto-category {
+  display: inline-block;
+  background: rgba(59, 130, 246, 0.08) !important;
+  color: #1d4ed8 !important;
+  border: 1px solid rgba(59, 130, 246, 0.25) !important;
+  border-radius: 999px !important;
+  padding: 0.25rem 0.75rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  margin: 0.15rem !important;
+}
+
+.listing-category:hover,
+.quarto-category:hover {
+  background: rgba(59, 130, 246, 0.18) !important;
+  color: #1e3a8a !important;
+}
+
+
+/* =========================================================
+   16. BLOG LISTING
+   ========================================================= */
+
+#listing-blog-listing .quarto-post.image-right {
+  display: flex !important;
+  align-items: flex-start !important;
+  flex-wrap: nowrap !important;
+}
+
+#listing-blog-listing .quarto-post .metadata {
+  order: 1 !important;
+  flex: 0 0 120px !important;
+}
+
+#listing-blog-listing .quarto-post .body {
+  order: 2 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  text-align: left !important;
+}
+
+#listing-blog-listing .quarto-post .listing-title {
+  text-align: left !important;
+}
+
+#listing-blog-listing .listing-categories {
+  margin-top: 0.2rem !important;
+  margin-bottom: 0 !important;
+  gap: 0.3rem !important;
+}
+
+#listing-blog-listing .listing-category {
+  margin: 0 !important;
+  padding: 0.05rem 0.4rem !important;
+}
+
+
+/* =========================================================
+   17. PAGE TITLE / HEADER
+   ========================================================= */
+
+#title-block-header {
+  display: none;
+}
+
+.pub-kicker {
+  margin: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1 !important;
+}
+
+
+/* =========================================================
+   18. DARK MODE
+   ========================================================= */
+
 .quarto-dark .hero-section {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
@@ -267,3 +742,103 @@ a:hover { text-decoration: underline; }
   color: #7ec8e3;
   border-color: #2a5a8c;
 }
+
+.quarto-dark .pub-stat {
+  background: linear-gradient(
+    135deg,
+    rgba(30,41,59,0.92),
+    rgba(15,23,42,0.82)
+  );
+}
+
+.quarto-dark .pub-controls,
+.quarto-dark .word-cloud-panel {
+  background: rgba(15, 23, 42, 0.55);
+}
+
+.quarto-dark .word-cloud-item,
+.quarto-dark .pub-keyword {
+  color: #93c5fd;
+  background: rgba(59, 130, 246, 0.14);
+}
+
+.quarto-dark .pub-reset-btn,
+.quarto-dark .keyword-clear {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.quarto-dark .pub-card {
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.quarto-dark .type-published {
+  color: #bfdbfe !important;
+}
+
+.quarto-dark .type-working {
+  color: #93c5fd !important;
+}
+
+.quarto-dark .abs-badge {
+  color: #60a5fa !important;
+}
+
+.quarto-dark .scopus-badge {
+  color: #3b82f6 !important;
+}
+
+
+/* =========================================================
+   19. RESPONSIVE DESIGN
+   ========================================================= */
+
+@media (max-width: 980px) {
+  .quick-grid,
+  .pub-dashboard {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
+  .pub-filter-grid {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .quick-grid,
+  .pub-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .word-cloud-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+
+/* =========================================================
+   20. OPTIONAL / DISABLED STYLES
+   ========================================================= */
+
+/*
+p {
+  line-height: 1.6;
+}
+
+p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+}
+
+.navbar .bi,
+.navbar a .bi,
+.navbar-nav .bi {
+  color: white !important;
+  filter: brightness(0) invert(1);
+}
+*/
