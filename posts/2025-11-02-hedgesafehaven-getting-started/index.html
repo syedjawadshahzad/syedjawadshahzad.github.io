@@ -2,19 +2,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.27">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2025-11-02">
-<meta name="description" content="A guide to hedge and safe-haven analysis using the HedgeSafeHaven R package.">
+<meta name="description" content="A getting-started guide to hedge and safe-haven analysis with the safehaven R package.">
 
-<title>HedgeSafeHaven — Getting Started</title>
+<title>safehaven: Hedge and Safe Haven Testing in R</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -22,7 +28,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -34,15 +95,14 @@ ul.task-list li input[type="checkbox"] {
 <meta name="quarto:offset" content="../../">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-172ba59bd5e0b52282274ba0c0cc16fc.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="../../publications-polish.css">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,22 +208,40 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#background" id="toc-background" class="nav-link" data-scroll-target="#background">Background</a></li>
+  <li><a href="#example-workflow-gold-and-bitcoin" id="toc-example-workflow-gold-and-bitcoin" class="nav-link" data-scroll-target="#example-workflow-gold-and-bitcoin">Example workflow: gold and bitcoin</a>
+  <ul class="collapse">
+  <li><a href="#hedge-safe-haven-regression-and-classification" id="toc-hedge-safe-haven-regression-and-classification" class="nav-link" data-scroll-target="#hedge-safe-haven-regression-and-classification">1. Hedge / safe-haven regression and classification</a></li>
+  <li><a href="#hedge-ratio-and-hedging-effectiveness-via-dcc" id="toc-hedge-ratio-and-hedging-effectiveness-via-dcc" class="nav-link" data-scroll-target="#hedge-ratio-and-hedging-effectiveness-via-dcc">2. Hedge ratio and hedging effectiveness via DCC</a></li>
+  <li><a href="#cross-quantile-dependence-heatmaps" id="toc-cross-quantile-dependence-heatmaps" class="nav-link" data-scroll-target="#cross-quantile-dependence-heatmaps">3. Cross-quantile dependence heatmaps</a></li>
+  <li><a href="#diversification-benefit" id="toc-diversification-benefit" class="nav-link" data-scroll-target="#diversification-benefit">4. Diversification benefit</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">HedgeSafeHaven — Getting Started</h1>
+<div class="quarto-title-block"><div><h1 class="title">safehaven: Hedge and Safe Haven Testing in R</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
   <div class="quarto-categories">
-    <div class="quarto-category">HedgeSafeHaven</div>
+    <div class="quarto-category">safehaven</div>
     <div class="quarto-category">R package</div>
+    <div class="quarto-category">Safe haven</div>
+    <div class="quarto-category">Econometrics</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    A guide to hedge and safe-haven analysis using the HedgeSafeHaven R package.
+    A getting-started guide to hedge and safe-haven analysis with the safehaven R package.
   </div>
 </div>
 
@@ -178,6 +256,12 @@ ul.task-list li input[type="checkbox"] {
     </div>
   </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">September 29, 2026</p>
+    </div>
+  </div>
     
   </div>
   
@@ -186,11 +270,181 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>See the full getting-started guide on the <a href="https://jawadshahzad.com/HedgeSafeHaven/articles/getting-started.html">HedgeSafeHaven package site</a>.</p>
+<p>The <strong>safehaven</strong> package tests the hedge and safe haven hypotheses <span class="citation" data-cites="baur2010">(<a href="#ref-baur2010" role="doc-biblioref">Baur, D. G., T. K. McDermott, 2010</a>)</span>, estimates hedge ratios, hedging effectiveness and optimal portfolio weights <span class="citation" data-cites="basher2016">(<a href="#ref-basher2016" role="doc-biblioref">Basher, S. A., P. Sadorsky, 2016</a>)</span>, and computes the conditional diversification benefit <span class="citation" data-cites="christoffersen2012 christoffersen2018">(<a href="#ref-christoffersen2012" role="doc-biblioref">Christoffersen, P., V. Errunza, K. Jacobs, H. Langlois, 2012</a>; <a href="#ref-christoffersen2018" role="doc-biblioref">Christoffersen, P., K. Jacobs, X. Jin, H. Langlois, 2018</a>)</span>. This guide also shows how to complement these with cross-quantilogram-based predictability <span class="citation" data-cites="han2016">(<a href="#ref-han2016" role="doc-biblioref">Han, H., O. Linton, T. Oka, Y.-J. Whang, 2016</a>)</span>.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>The package is not yet publicly released; contact the author for access.</p>
+</section>
+<section id="background" class="level2">
+<h2 class="anchored" data-anchor-id="background">Background</h2>
+<p>The role of assets such as <strong>gold</strong> and <strong>bitcoin</strong> as potential hedges or safe havens for equity markets has attracted increasing scholarly attention (e.g., <span class="citation" data-cites="ali2020">Ali, S., E. Bouri, R. L. Czudaj, S. J. H. Shahzad (<a href="#ref-ali2020" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="shahzad2019">Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek, B. Lucey (<a href="#ref-shahzad2019" role="doc-biblioref">2019</a>)</span>; <span class="citation" data-cites="shahzad2020">Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek (<a href="#ref-shahzad2020" role="doc-biblioref">2020</a>)</span>; <span class="citation" data-cites="mujtaba2024">Mujtaba, G., A. Siddique, N. Naifar, S. J. H. Shahzad (<a href="#ref-mujtaba2024" role="doc-biblioref">2024</a>)</span>), particularly in periods of heightened economic uncertainty, persistent inflation and shifting monetary policy.</p>
+<p>Following <span class="citation" data-cites="baur2010">Baur, D. G., T. K. McDermott (<a href="#ref-baur2010" role="doc-biblioref">2010</a>)</span>, an asset is a</p>
+<ul>
+<li><strong>hedge</strong> if it is uncorrelated (weak) or negatively correlated (strong) with the market <em>on average</em>;</li>
+<li><strong>safe haven</strong> if it is uncorrelated (weak) or negatively correlated (strong) with the market <em>during extreme market declines</em>.</li>
+</ul>
+</section>
+<section id="example-workflow-gold-and-bitcoin" class="level2">
+<h2 class="anchored" data-anchor-id="example-workflow-gold-and-bitcoin">Example workflow: gold and bitcoin</h2>
+<p>We assess <strong>gold (GLD)</strong> and <strong>bitcoin (BTC)</strong> as potential hedges or safe havens for the <strong>U.S. stock market (S&amp;P 500)</strong> using the bundled <code>hedgedata</code> dataset.</p>
+<section id="hedge-safe-haven-regression-and-classification" class="level3">
+<h3 class="anchored" data-anchor-id="hedge-safe-haven-regression-and-classification">1. Hedge / safe-haven regression and classification</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(safehaven)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"hedgedata"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 and gold</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>res_gld <span class="ot">&lt;-</span> <span class="fu">safe_haven_test</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>res_gld</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Hedge Coefficient     p_value
+1    c0  0.02854200 0.243328427
+2  0.10 -0.09181858 0.110421436
+3  0.05 -0.12474223 0.001372538
+4  0.01  0.05556154 0.238446604</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 and bitcoin</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>res_btc <span class="ot">&lt;-</span> <span class="fu">safe_haven_test</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>res_btc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Hedge Coefficient      p_value
+1    c0   0.7363518 2.508433e-15
+2  0.10   0.7685085 5.144017e-04
+3  0.05   0.9992671 1.846179e-10
+4  0.01   1.7624203 2.752659e-32</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">classify_safe_haven</span>(res_gld)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Weak hedge; weak safe haven at 10% and 1%; strong safe haven at 5%. </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">classify_safe_haven</span>(res_btc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Not a hedge; not a safe haven at 10%, 5% and 1%. </code></pre>
+</div>
+</div>
+<p><code>c0</code> is the average-market coefficient; the rows <code>0.10</code>, <code>0.05</code> and <code>0.01</code> are the cumulative coefficients when S&amp;P 500 returns fall in their lower 10%, 5% and 1% quantiles.</p>
+</section>
+<section id="hedge-ratio-and-hedging-effectiveness-via-dcc" class="level3">
+<h3 class="anchored" data-anchor-id="hedge-ratio-and-hedging-effectiveness-via-dcc">2. Hedge ratio and hedging effectiveness via DCC</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hedging asset: gold</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dcc_hedge</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     beta_mean   beta_min beta_max         HE       OPW
+1 -0.004473511 -0.9198528 1.115682 0.02663489 0.4728486</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hedging asset: bitcoin</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dcc_hedge</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   beta_mean    beta_min  beta_max         HE       OPW
+1 0.05505125 -0.07302479 0.3868332 0.09587392 0.0277494</code></pre>
+</div>
+</div>
+<p>The output summarises the time-varying hedge ratio, the hedging effectiveness (HE) and the average optimal portfolio weight (OPW) of the hedging asset, as in <span class="citation" data-cites="basher2016">Basher, S. A., P. Sadorsky (<a href="#ref-basher2016" role="doc-biblioref">2016</a>)</span>.</p>
+</section>
+<section id="cross-quantile-dependence-heatmaps" class="level3">
+<h3 class="anchored" data-anchor-id="cross-quantile-dependence-heatmaps">3. Cross-quantile dependence heatmaps</h3>
+<p>This step uses the <strong>quantilogram</strong> package (<code>install.packages("quantilogram")</code>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantilogram)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>k      <span class="ot">&lt;-</span> <span class="dv">1</span>                    <span class="co"># lag order</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>vec.q  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.1</span>)   <span class="co"># quantiles</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>B.size <span class="ot">&lt;-</span> <span class="dv">100</span>                  <span class="co"># bootstrap repetitions</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Shared styling: the cross-quantilogram values are small, so the colour</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># scale saturates at +/-0.05; bold values are significant at 5%.</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>heatmap <span class="ot">&lt;-</span> <span class="cf">function</span>(df, var1, var2) {</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">crossq.heatmap</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    df, k, vec.q, B.size,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">var1_name =</span> var1, <span class="at">var2_name =</span> var2,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Cross-quantilogram:"</span>, var1, <span class="st">"vs"</span>, var2),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Lag 1; bold = significant at 5%"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#2166AC"</span>, <span class="st">"#67A9CF"</span>, <span class="st">"white"</span>, <span class="st">"#EF8A62"</span>, <span class="st">"#B2182B"</span>),</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">color_values =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="fl">0.05</span>, <span class="dv">0</span>, <span class="fl">0.05</span>, <span class="dv">1</span>),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">tile_border_color =</span> <span class="st">"white"</span>, <span class="at">tile_border_width =</span> <span class="fl">0.3</span>, <span class="at">x_angle =</span> <span class="dv">0</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>plot</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gold (GLD) as predicted variable, S&amp;P 500 (SP) as predicting variable</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(hedgedata[, <span class="fu">c</span>(<span class="st">"GLD"</span>, <span class="st">"SP"</span>)], <span class="st">"Gold"</span>, <span class="st">"S&amp;P 500"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bitcoin (BTC) as predicted variable, S&amp;P 500 (SP) as predicting variable</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(hedgedata[, <span class="fu">c</span>(<span class="st">"BTC"</span>, <span class="st">"SP"</span>)], <span class="st">"Bitcoin"</span>, <span class="st">"S&amp;P 500"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The heatmaps show how dependence between the S&amp;P 500 and gold or bitcoin varies across quantiles, indicating whether the hedging asset remains uncorrelated or negatively correlated during market stress.</p>
+</section>
+<section id="diversification-benefit" class="level3">
+<h3 class="anchored" data-anchor-id="diversification-benefit">4. Diversification benefit</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 / gold portfolio, 90% in the S&amp;P 500, 5% tail</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diversification_benefit</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD, <span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">w =</span> <span class="fl">0.90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3011936</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 / bitcoin portfolio, 90% in the S&amp;P 500, 5% tail</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">diversification_benefit</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC, <span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">w =</span> <span class="fl">0.90</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.5089053</code></pre>
+</div>
+</div>
+<p><code>w</code> is the weight on the first asset (here the S&amp;P 500). The measure lies between 0 (no diversification benefit, as with perfectly correlated assets) and 1; higher values imply stronger diversification benefits.</p>
 
 
+<!-- -->
 
-</main> <!-- /main -->
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-mujtaba2024" class="csl-entry" role="listitem">
+Mujtaba, G., A. Siddique, N. Naifar, S. J. H. Shahzad. (2024). Hedge and safe haven role of commodities for the US and chinese equity markets. <em>International Journal of Finance &amp; Economics</em>, <em>29</em>, (2), 2381–2414.
+</div>
+<div id="ref-ali2020" class="csl-entry" role="listitem">
+Ali, S., E. Bouri, R. L. Czudaj, S. J. H. Shahzad. (2020). Revisiting the valuable roles of commodities for international stock markets. <em>Resources Policy</em>, <em>66</em>, 101603.
+</div>
+<div id="ref-shahzad2020" class="csl-entry" role="listitem">
+Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek. (2020). Safe haven, hedge and diversification for G7 stock markets: Gold versus bitcoin. <em>Economic Modelling</em>, <em>87</em>, 212–224.
+</div>
+<div id="ref-shahzad2019" class="csl-entry" role="listitem">
+Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek, B. Lucey. (2019). Is bitcoin a better safe-haven investment than gold and commodities? <em>International Review of Financial Analysis</em>, <em>63</em>, 322–330.
+</div>
+<div id="ref-christoffersen2018" class="csl-entry" role="listitem">
+Christoffersen, P., K. Jacobs, X. Jin, H. Langlois. (2018). Dynamic dependence and diversification in corporate credit. <em>Review of Finance</em>, <em>22</em>, (2), 521–560.
+</div>
+<div id="ref-basher2016" class="csl-entry" role="listitem">
+Basher, S. A., P. Sadorsky. (2016). Hedging emerging market stock prices with oil, gold, VIX, and bonds: A comparison between DCC, ADCC and GO-GARCH. <em>Energy Economics</em>, <em>54</em>, 235–247.
+</div>
+<div id="ref-han2016" class="csl-entry" role="listitem">
+Han, H., O. Linton, T. Oka, Y.-J. Whang. (2016). The cross-quantilogram: Measuring quantile dependence and testing directional predictability between time series. <em>Journal of Econometrics</em>, <em>193</em>, (1), 251–270.
+</div>
+<div id="ref-christoffersen2012" class="csl-entry" role="listitem">
+Christoffersen, P., V. Errunza, K. Jacobs, H. Langlois. (2012). Is the potential for international diversification disappearing? A dynamic copula approach. <em>Review of Financial Studies</em>, <em>25</em>, (12), 3711–3751.
+</div>
+<div id="ref-baur2010" class="csl-entry" role="listitem">
+Baur, D. G., T. K. McDermott. (2010). Is gold a safe haven? International evidence. <em>Journal of Banking &amp; Finance</em>, <em>34</em>, (8), 1886–1898.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -261,6 +515,57 @@ ul.task-list li input[type="checkbox"] {
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -590,7 +895,136 @@ ul.task-list li input[type="checkbox"] {
       }
     }
   });
-  </script>
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "safehaven: Hedge and Safe Haven Testing in R"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2025-11-02</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> 2026-09-29</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [safehaven, R package, Safe haven, Econometrics]</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "A getting-started guide to hedge and safe-haven analysis with the safehaven R package."</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a><span class="co">  freeze: auto</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>The **safehaven** package tests the hedge and safe haven hypotheses <span class="co">[</span><span class="ot">@baur2010</span><span class="co">]</span>, estimates hedge ratios, hedging effectiveness and optimal portfolio weights <span class="co">[</span><span class="ot">@basher2016</span><span class="co">]</span>, and computes the conditional diversification benefit <span class="co">[</span><span class="ot">@christoffersen2012; @christoffersen2018</span><span class="co">]</span>. This guide also shows how to complement these with cross-quantilogram-based predictability <span class="co">[</span><span class="ot">@han2016</span><span class="co">]</span>.</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## Installation</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>The package is not yet publicly released; contact the author for access.</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Background</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>The role of assets such as **gold** and **bitcoin** as potential hedges or safe havens for equity markets has attracted increasing scholarly attention (e.g., @ali2020; @shahzad2019; @shahzad2020; @mujtaba2024), particularly in periods of heightened economic uncertainty, persistent inflation and shifting monetary policy.</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>Following @baur2010, an asset is a</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**hedge** if it is uncorrelated (weak) or negatively correlated (strong) with the market *on average*;</span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**safe haven** if it is uncorrelated (weak) or negatively correlated (strong) with the market *during extreme market declines*.</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example workflow: gold and bitcoin</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>We assess **gold (GLD)** and **bitcoin (BTC)** as potential hedges or safe havens for the **U.S. stock market (S&amp;P 500)** using the bundled <span class="in">`hedgedata`</span> dataset.</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Hedge / safe-haven regression and classification</span></span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(safehaven)</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"hedgedata"</span>)</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 and gold</span></span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>res_gld <span class="ot">&lt;-</span> <span class="fu">safe_haven_test</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD)</span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>res_gld</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 and bitcoin</span></span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>res_btc <span class="ot">&lt;-</span> <span class="fu">safe_haven_test</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC)</span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>res_btc</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-54"><a href="#cb20-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification</span></span>
+<span id="cb20-55"><a href="#cb20-55" aria-hidden="true" tabindex="-1"></a><span class="fu">classify_safe_haven</span>(res_gld)</span>
+<span id="cb20-56"><a href="#cb20-56" aria-hidden="true" tabindex="-1"></a><span class="fu">classify_safe_haven</span>(res_btc)</span>
+<span id="cb20-57"><a href="#cb20-57" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-58"><a href="#cb20-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-59"><a href="#cb20-59" aria-hidden="true" tabindex="-1"></a><span class="in">`c0`</span> is the average-market coefficient; the rows <span class="in">`0.10`</span>, <span class="in">`0.05`</span> and <span class="in">`0.01`</span> are the cumulative coefficients when S&amp;P 500 returns fall in their lower 10%, 5% and 1% quantiles.</span>
+<span id="cb20-60"><a href="#cb20-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-61"><a href="#cb20-61" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Hedge ratio and hedging effectiveness via DCC</span></span>
+<span id="cb20-62"><a href="#cb20-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-65"><a href="#cb20-65" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-66"><a href="#cb20-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Hedging asset: gold</span></span>
+<span id="cb20-67"><a href="#cb20-67" aria-hidden="true" tabindex="-1"></a><span class="fu">dcc_hedge</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD)</span>
+<span id="cb20-68"><a href="#cb20-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-69"><a href="#cb20-69" aria-hidden="true" tabindex="-1"></a><span class="co"># Hedging asset: bitcoin</span></span>
+<span id="cb20-70"><a href="#cb20-70" aria-hidden="true" tabindex="-1"></a><span class="fu">dcc_hedge</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC)</span>
+<span id="cb20-71"><a href="#cb20-71" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-72"><a href="#cb20-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-73"><a href="#cb20-73" aria-hidden="true" tabindex="-1"></a>The output summarises the time-varying hedge ratio, the hedging effectiveness (HE) and the average optimal portfolio weight (OPW) of the hedging asset, as in @basher2016.</span>
+<span id="cb20-74"><a href="#cb20-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-75"><a href="#cb20-75" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3. Cross-quantile dependence heatmaps</span></span>
+<span id="cb20-76"><a href="#cb20-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-77"><a href="#cb20-77" aria-hidden="true" tabindex="-1"></a>This step uses the **quantilogram** package (<span class="in">`install.packages("quantilogram")`</span>).</span>
+<span id="cb20-78"><a href="#cb20-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-81"><a href="#cb20-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-82"><a href="#cb20-82" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantilogram)</span>
+<span id="cb20-83"><a href="#cb20-83" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb20-84"><a href="#cb20-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-85"><a href="#cb20-85" aria-hidden="true" tabindex="-1"></a>k      <span class="ot">&lt;-</span> <span class="dv">1</span>                    <span class="co"># lag order</span></span>
+<span id="cb20-86"><a href="#cb20-86" aria-hidden="true" tabindex="-1"></a>vec.q  <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fl">0.1</span>, <span class="fl">0.9</span>, <span class="fl">0.1</span>)   <span class="co"># quantiles</span></span>
+<span id="cb20-87"><a href="#cb20-87" aria-hidden="true" tabindex="-1"></a>B.size <span class="ot">&lt;-</span> <span class="dv">100</span>                  <span class="co"># bootstrap repetitions</span></span>
+<span id="cb20-88"><a href="#cb20-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-89"><a href="#cb20-89" aria-hidden="true" tabindex="-1"></a><span class="co"># Shared styling: the cross-quantilogram values are small, so the colour</span></span>
+<span id="cb20-90"><a href="#cb20-90" aria-hidden="true" tabindex="-1"></a><span class="co"># scale saturates at +/-0.05; bold values are significant at 5%.</span></span>
+<span id="cb20-91"><a href="#cb20-91" aria-hidden="true" tabindex="-1"></a>heatmap <span class="ot">&lt;-</span> <span class="cf">function</span>(df, var1, var2) {</span>
+<span id="cb20-92"><a href="#cb20-92" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">crossq.heatmap</span>(</span>
+<span id="cb20-93"><a href="#cb20-93" aria-hidden="true" tabindex="-1"></a>    df, k, vec.q, B.size,</span>
+<span id="cb20-94"><a href="#cb20-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">var1_name =</span> var1, <span class="at">var2_name =</span> var2,</span>
+<span id="cb20-95"><a href="#cb20-95" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">paste</span>(<span class="st">"Cross-quantilogram:"</span>, var1, <span class="st">"vs"</span>, var2),</span>
+<span id="cb20-96"><a href="#cb20-96" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Lag 1; bold = significant at 5%"</span>,</span>
+<span id="cb20-97"><a href="#cb20-97" aria-hidden="true" tabindex="-1"></a>    <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#2166AC"</span>, <span class="st">"#67A9CF"</span>, <span class="st">"white"</span>, <span class="st">"#EF8A62"</span>, <span class="st">"#B2182B"</span>),</span>
+<span id="cb20-98"><a href="#cb20-98" aria-hidden="true" tabindex="-1"></a>    <span class="at">color_values =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="sc">-</span><span class="fl">0.05</span>, <span class="dv">0</span>, <span class="fl">0.05</span>, <span class="dv">1</span>),</span>
+<span id="cb20-99"><a href="#cb20-99" aria-hidden="true" tabindex="-1"></a>    <span class="at">tile_border_color =</span> <span class="st">"white"</span>, <span class="at">tile_border_width =</span> <span class="fl">0.3</span>, <span class="at">x_angle =</span> <span class="dv">0</span></span>
+<span id="cb20-100"><a href="#cb20-100" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-101"><a href="#cb20-101" aria-hidden="true" tabindex="-1"></a>  res<span class="sc">$</span>plot</span>
+<span id="cb20-102"><a href="#cb20-102" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-103"><a href="#cb20-103" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-104"><a href="#cb20-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-107"><a href="#cb20-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-108"><a href="#cb20-108" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb20-109"><a href="#cb20-109" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
+<span id="cb20-110"><a href="#cb20-110" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "100%"</span></span>
+<span id="cb20-111"><a href="#cb20-111" aria-hidden="true" tabindex="-1"></a><span class="co"># Gold (GLD) as predicted variable, S&amp;P 500 (SP) as predicting variable</span></span>
+<span id="cb20-112"><a href="#cb20-112" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(hedgedata[, <span class="fu">c</span>(<span class="st">"GLD"</span>, <span class="st">"SP"</span>)], <span class="st">"Gold"</span>, <span class="st">"S&amp;P 500"</span>)</span>
+<span id="cb20-113"><a href="#cb20-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-114"><a href="#cb20-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-117"><a href="#cb20-117" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-118"><a href="#cb20-118" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
+<span id="cb20-119"><a href="#cb20-119" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 6</span></span>
+<span id="cb20-120"><a href="#cb20-120" aria-hidden="true" tabindex="-1"></a><span class="co">#| out-width: "100%"</span></span>
+<span id="cb20-121"><a href="#cb20-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Bitcoin (BTC) as predicted variable, S&amp;P 500 (SP) as predicting variable</span></span>
+<span id="cb20-122"><a href="#cb20-122" aria-hidden="true" tabindex="-1"></a><span class="fu">heatmap</span>(hedgedata[, <span class="fu">c</span>(<span class="st">"BTC"</span>, <span class="st">"SP"</span>)], <span class="st">"Bitcoin"</span>, <span class="st">"S&amp;P 500"</span>)</span>
+<span id="cb20-123"><a href="#cb20-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-124"><a href="#cb20-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-125"><a href="#cb20-125" aria-hidden="true" tabindex="-1"></a>The heatmaps show how dependence between the S&amp;P 500 and gold or bitcoin varies across quantiles, indicating whether the hedging asset remains uncorrelated or negatively correlated during market stress.</span>
+<span id="cb20-126"><a href="#cb20-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-127"><a href="#cb20-127" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4. Diversification benefit</span></span>
+<span id="cb20-128"><a href="#cb20-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-131"><a href="#cb20-131" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb20-132"><a href="#cb20-132" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 / gold portfolio, 90% in the S&amp;P 500, 5% tail</span></span>
+<span id="cb20-133"><a href="#cb20-133" aria-hidden="true" tabindex="-1"></a><span class="fu">diversification_benefit</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>GLD, <span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">w =</span> <span class="fl">0.90</span>)</span>
+<span id="cb20-134"><a href="#cb20-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-135"><a href="#cb20-135" aria-hidden="true" tabindex="-1"></a><span class="co"># S&amp;P 500 / bitcoin portfolio, 90% in the S&amp;P 500, 5% tail</span></span>
+<span id="cb20-136"><a href="#cb20-136" aria-hidden="true" tabindex="-1"></a><span class="fu">diversification_benefit</span>(hedgedata<span class="sc">$</span>SP, hedgedata<span class="sc">$</span>BTC, <span class="at">p =</span> <span class="fl">0.05</span>, <span class="at">w =</span> <span class="fl">0.90</span>)</span>
+<span id="cb20-137"><a href="#cb20-137" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb20-138"><a href="#cb20-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-139"><a href="#cb20-139" aria-hidden="true" tabindex="-1"></a><span class="in">`w`</span> is the weight on the first asset (here the S&amp;P 500). The measure lies between 0 (no diversification benefit, as with perfectly correlated assets) and 1; higher values imply stronger diversification benefits.</span>
+</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

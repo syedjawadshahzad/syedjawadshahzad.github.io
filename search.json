@@ -9,16 +9,37 @@
   {
     "objectID": "posts/2025-11-02-hedgesafehaven-getting-started/index.html",
     "href": "posts/2025-11-02-hedgesafehaven-getting-started/index.html",
-    "title": "HedgeSafeHaven — Getting Started",
+    "title": "safehaven: Hedge and Safe Haven Testing in R",
     "section": "",
-    "text": "See the full getting-started guide on the HedgeSafeHaven package site."
+    "text": "The safehaven package tests the hedge and safe haven hypotheses (Baur, D. G., T. K. McDermott, 2010), estimates hedge ratios, hedging effectiveness and optimal portfolio weights (Basher, S. A., P. Sadorsky, 2016), and computes the conditional diversification benefit (Christoffersen, P., V. Errunza, K. Jacobs, H. Langlois, 2012; Christoffersen, P., K. Jacobs, X. Jin, H. Langlois, 2018). This guide also shows how to complement these with cross-quantilogram-based predictability (Han, H., O. Linton, T. Oka, Y.-J. Whang, 2016)."
+  },
+  {
+    "objectID": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#installation",
+    "href": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#installation",
+    "title": "safehaven: Hedge and Safe Haven Testing in R",
+    "section": "Installation",
+    "text": "Installation\nThe package is not yet publicly released; contact the author for access."
+  },
+  {
+    "objectID": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#background",
+    "href": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#background",
+    "title": "safehaven: Hedge and Safe Haven Testing in R",
+    "section": "Background",
+    "text": "Background\nThe role of assets such as gold and bitcoin as potential hedges or safe havens for equity markets has attracted increasing scholarly attention (e.g., Ali, S., E. Bouri, R. L. Czudaj, S. J. H. Shahzad (2020); Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek, B. Lucey (2019); Shahzad, S. J. H., E. Bouri, D. Roubaud, L. Kristoufek (2020); Mujtaba, G., A. Siddique, N. Naifar, S. J. H. Shahzad (2024)), particularly in periods of heightened economic uncertainty, persistent inflation and shifting monetary policy.\nFollowing Baur, D. G., T. K. McDermott (2010), an asset is a\n\nhedge if it is uncorrelated (weak) or negatively correlated (strong) with the market on average;\nsafe haven if it is uncorrelated (weak) or negatively correlated (strong) with the market during extreme market declines."
+  },
+  {
+    "objectID": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#example-workflow-gold-and-bitcoin",
+    "href": "posts/2025-11-02-hedgesafehaven-getting-started/index.html#example-workflow-gold-and-bitcoin",
+    "title": "safehaven: Hedge and Safe Haven Testing in R",
+    "section": "Example workflow: gold and bitcoin",
+    "text": "Example workflow: gold and bitcoin\nWe assess gold (GLD) and bitcoin (BTC) as potential hedges or safe havens for the U.S. stock market (S&P 500) using the bundled hedgedata dataset.\n\n1. Hedge / safe-haven regression and classification\n\nlibrary(safehaven)\ndata(\"hedgedata\")\n\n# S&P 500 and gold\nres_gld &lt;- safe_haven_test(hedgedata$SP, hedgedata$GLD)\nres_gld\n\n  Hedge Coefficient     p_value\n1    c0  0.02854200 0.243328427\n2  0.10 -0.09181858 0.110421436\n3  0.05 -0.12474223 0.001372538\n4  0.01  0.05556154 0.238446604\n\n# S&P 500 and bitcoin\nres_btc &lt;- safe_haven_test(hedgedata$SP, hedgedata$BTC)\nres_btc\n\n  Hedge Coefficient      p_value\n1    c0   0.7363518 2.508433e-15\n2  0.10   0.7685085 5.144017e-04\n3  0.05   0.9992671 1.846179e-10\n4  0.01   1.7624203 2.752659e-32\n\n# Classification\nclassify_safe_haven(res_gld)\n\nWeak hedge; weak safe haven at 10% and 1%; strong safe haven at 5%. \n\nclassify_safe_haven(res_btc)\n\nNot a hedge; not a safe haven at 10%, 5% and 1%. \n\n\nc0 is the average-market coefficient; the rows 0.10, 0.05 and 0.01 are the cumulative coefficients when S&P 500 returns fall in their lower 10%, 5% and 1% quantiles.\n\n\n2. Hedge ratio and hedging effectiveness via DCC\n\n# Hedging asset: gold\ndcc_hedge(hedgedata$SP, hedgedata$GLD)\n\n     beta_mean   beta_min beta_max         HE       OPW\n1 -0.004473511 -0.9198528 1.115682 0.02663489 0.4728486\n\n# Hedging asset: bitcoin\ndcc_hedge(hedgedata$SP, hedgedata$BTC)\n\n   beta_mean    beta_min  beta_max         HE       OPW\n1 0.05505125 -0.07302479 0.3868332 0.09587392 0.0277494\n\n\nThe output summarises the time-varying hedge ratio, the hedging effectiveness (HE) and the average optimal portfolio weight (OPW) of the hedging asset, as in Basher, S. A., P. Sadorsky (2016).\n\n\n3. Cross-quantile dependence heatmaps\nThis step uses the quantilogram package (install.packages(\"quantilogram\")).\n\nlibrary(quantilogram)\nset.seed(123)\n\nk      &lt;- 1                    # lag order\nvec.q  &lt;- seq(0.1, 0.9, 0.1)   # quantiles\nB.size &lt;- 100                  # bootstrap repetitions\n\n# Shared styling: the cross-quantilogram values are small, so the colour\n# scale saturates at +/-0.05; bold values are significant at 5%.\nheatmap &lt;- function(df, var1, var2) {\n  res &lt;- crossq.heatmap(\n    df, k, vec.q, B.size,\n    var1_name = var1, var2_name = var2,\n    title = paste(\"Cross-quantilogram:\", var1, \"vs\", var2),\n    subtitle = \"Lag 1; bold = significant at 5%\",\n    colors = c(\"#2166AC\", \"#67A9CF\", \"white\", \"#EF8A62\", \"#B2182B\"),\n    color_values = c(-1, -0.05, 0, 0.05, 1),\n    tile_border_color = \"white\", tile_border_width = 0.3, x_angle = 0\n  )\n  res$plot\n}\n\n\n# Gold (GLD) as predicted variable, S&P 500 (SP) as predicting variable\nheatmap(hedgedata[, c(\"GLD\", \"SP\")], \"Gold\", \"S&P 500\")\n\n\n\n\n\n\n\n\n\n# Bitcoin (BTC) as predicted variable, S&P 500 (SP) as predicting variable\nheatmap(hedgedata[, c(\"BTC\", \"SP\")], \"Bitcoin\", \"S&P 500\")\n\n\n\n\n\n\n\n\nThe heatmaps show how dependence between the S&P 500 and gold or bitcoin varies across quantiles, indicating whether the hedging asset remains uncorrelated or negatively correlated during market stress.\n\n\n4. Diversification benefit\n\n# S&P 500 / gold portfolio, 90% in the S&P 500, 5% tail\ndiversification_benefit(hedgedata$SP, hedgedata$GLD, p = 0.05, w = 0.90)\n\n[1] 0.3011936\n\n# S&P 500 / bitcoin portfolio, 90% in the S&P 500, 5% tail\ndiversification_benefit(hedgedata$SP, hedgedata$BTC, p = 0.05, w = 0.90)\n\n[1] 0.5089053\n\n\nw is the weight on the first asset (here the S&P 500). The measure lies between 0 (no diversification benefit, as with perfectly correlated assets) and 1; higher values imply stronger diversification benefits."
   },
   {
     "objectID": "blog.html",
     "href": "blog.html",
     "title": "",
     "section": "",
-    "text": "Connectedness Approach in Financial Systems\n\n\n\nConnectedness\n\nEconometrics\n\n\n\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\nHedgeSafeHaven — Getting Started\n\n\n\nHedgeSafeHaven\n\nR package\n\n\n\n\n\n\nNov 2, 2025\n\n\n\n\n\nNo matching items"
+    "text": "Connectedness Approach in Financial Systems\n\n\n\nConnectedness\n\nEconometrics\n\n\n\n\n\n\nJan 29, 2026\n\n\n\n\n\n\n\nsafehaven: Hedge and Safe Haven Testing in R\n\n\n\nsafehaven\n\nR package\n\nSafe haven\n\nEconometrics\n\n\n\n\n\n\nNov 2, 2025\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
