@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2026-01-29">
+<meta name="description" content="Why variance-based connectedness measures cannot tell risk transmission from hedging, with a minimal R demonstration.">
 
 <title>Connectedness Approach in Financial Systems</title>
 <style>
@@ -62,7 +63,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -192,17 +213,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">1. Introduction</a></li>
-  <li><a href="#variance-vs.-correlation-why-the-sign-matters" id="toc-variance-vs.-correlation-why-the-sign-matters" class="nav-link" data-scroll-target="#variance-vs.-correlation-why-the-sign-matters">2. Variance vs.&nbsp;Correlation: Why the Sign Matters</a></li>
-  <li><a href="#when-connectedness-makes-sense" id="toc-when-connectedness-makes-sense" class="nav-link" data-scroll-target="#when-connectedness-makes-sense">3. When Connectedness Makes Sense</a>
+  <li><a href="#variance-vs.-correlation-why-the-sign-matters" id="toc-variance-vs.-correlation-why-the-sign-matters" class="nav-link active" data-scroll-target="#variance-vs.-correlation-why-the-sign-matters">Variance vs.&nbsp;correlation: why the sign matters</a></li>
+  <li><a href="#when-connectedness-makes-sense" id="toc-when-connectedness-makes-sense" class="nav-link" data-scroll-target="#when-connectedness-makes-sense">When connectedness makes sense</a></li>
+  <li><a href="#minimal-demonstration" id="toc-minimal-demonstration" class="nav-link" data-scroll-target="#minimal-demonstration">Minimal demonstration</a>
   <ul class="collapse">
-  <li><a href="#interpretation-caution" id="toc-interpretation-caution" class="nav-link" data-scroll-target="#interpretation-caution">Interpretation Caution</a></li>
+  <li><a href="#positive-correlation" id="toc-positive-correlation" class="nav-link" data-scroll-target="#positive-correlation">1. Positive correlation</a></li>
+  <li><a href="#negative-correlation" id="toc-negative-correlation" class="nav-link" data-scroll-target="#negative-correlation">2. Negative correlation</a></li>
   </ul></li>
-  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations">4. Recommendations</a>
-  <ul class="collapse">
-  <li><a href="#important" id="toc-important" class="nav-link" data-scroll-target="#important">Important</a></li>
-  </ul></li>
-  <li><a href="#minimal-demo-of-note" id="toc-minimal-demo-of-note" class="nav-link" data-scroll-target="#minimal-demo-of-note">Minimal Demo of Note</a></li>
+  <li><a href="#recommendations" id="toc-recommendations" class="nav-link" data-scroll-target="#recommendations">Recommendations</a></li>
   </ul>
 </nav>
     </div>
@@ -218,6 +236,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   </div>
 
+<div>
+  <div class="description">
+    Why variance-based connectedness measures cannot tell risk transmission from hedging, with a minimal R demonstration.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -230,6 +253,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
   </div>
   
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">September 29, 2026</p>
+    </div>
+  </div>
     
   </div>
   
@@ -238,79 +267,56 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">1. Introduction</h2>
-<p>The connectedness approach is a popular framework for understanding the transmission of shocks across assets or economic variables. It is typically based on the <strong>variance decomposition</strong> of a vector autoregressive (VAR) model, which measures how much of the forecast error variance of one variable is explained by shocks to others.</p>
+<p>The connectedness approach <span class="citation" data-cites="diebold2012 diebold2014">(<a href="#ref-diebold2012" role="doc-biblioref">Diebold, F. X., K. Yilmaz, 2012</a>; <a href="#ref-diebold2014" role="doc-biblioref">Diebold, F. X., K. Yilmaz, 2014</a>)</span> is a popular framework for understanding the transmission of shocks across assets or economic variables. It is based on the <strong>generalized forecast error variance decomposition</strong> <span class="citation" data-cites="pesaran1998">(<a href="#ref-pesaran1998" role="doc-biblioref">Pesaran, H. H., Y. Shin, 1998</a>)</span> of a vector autoregressive (VAR) model, which measures how much of the forecast error variance of one variable is explained by shocks to others.</p>
 <p>While widely used, interpretation of connectedness measures requires care—especially in financial contexts where correlations (signed relationships) often guide investment and risk management decisions.</p>
-</section>
 <section id="variance-vs.-correlation-why-the-sign-matters" class="level2">
-<h2 class="anchored" data-anchor-id="variance-vs.-correlation-why-the-sign-matters">2. Variance vs.&nbsp;Correlation: Why the Sign Matters</h2>
+<h2 class="anchored" data-anchor-id="variance-vs.-correlation-why-the-sign-matters">Variance vs.&nbsp;correlation: why the sign matters</h2>
 <p>Variance and covariance are inherently <strong>unsigned</strong> measures of association. They capture the <em>magnitude</em> of dependence, but not its direction. In contrast, <strong>correlation</strong> provides a signed indicator of whether assets tend to move together (positive correlation) or in opposite directions (negative correlation).</p>
-<p>As a result, connectedness metrics—being variance-based—do not distinguish between risk comovement and hedging (safe-haven) behavior.</p>
-<p>For example:</p>
+<p>As a result, connectedness metrics—being variance-based—do not distinguish between risk comovement and hedging (safe-haven) behavior. For example:</p>
 <ul>
 <li>A strong <strong>stock–gold</strong> connectedness does not necessarily imply risk transmission. Gold may act as a safe haven, moving inversely with stocks during crises.</li>
 <li>Similarly, <strong>stock–bond</strong> or <strong>stock–uncertainty</strong> pairs often exhibit negative correlations. Without considering the expected sign, high connectedness could be misinterpreted as contagion, when it may actually reflect diversification.</li>
 </ul>
 </section>
 <section id="when-connectedness-makes-sense" class="level2">
-<h2 class="anchored" data-anchor-id="when-connectedness-makes-sense">3. When Connectedness Makes Sense</h2>
-<p>The connectedness approach is most interpretable when applied to systems of similar assets, where the underlying economic drivers are expected to move them in the same direction in response to shocks.</p>
-<p>Typical examples include:</p>
+<h2 class="anchored" data-anchor-id="when-connectedness-makes-sense">When connectedness makes sense</h2>
+<p>The connectedness approach is most interpretable when applied to systems of similar assets, where the underlying economic drivers are expected to move them in the same direction in response to shocks. Typical examples include:</p>
 <ul>
-<li>Multiple <strong>cryptocurrencies</strong></li>
-<li><strong>Equity indices</strong> across markets</li>
-<li><strong>Interest rate</strong> or <strong>credit spread</strong> series within the same region</li>
+<li>multiple <strong>cryptocurrencies</strong>;</li>
+<li><strong>equity indices</strong> across markets;</li>
+<li><strong>interest rate</strong> or <strong>credit spread</strong> series within the same region.</li>
 </ul>
 <p>In such systems, a high degree of connectedness genuinely indicates <strong>risk propagation</strong> and <strong>systemic linkages</strong>.</p>
-<section id="interpretation-caution" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation-caution">Interpretation Caution</h3>
-<p>Despite opposite correlations, both systems can show similar connectedness magnitudes.<br>
-Always consider the theoretical <strong>sign of relationships</strong> when interpreting results.</p>
 </section>
-</section>
-<section id="recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="recommendations">4. Recommendations</h2>
-<ul>
-<li><p>Use the connectedness approach only when the system variables have theoretically consistent relationships.</p></li>
-<li><p>Avoid mixing assets with fundamentally opposite expected signs (e.g., stock–gold) unless you explicitly address sign effects.</p></li>
-<li><p>Consider supplementing variance-based connectedness with correlation or coherence analysis to capture directionality.</p></li>
-<li><p>Always interpret connectedness in the context of economic theory and empirical sign expectations.</p></li>
-</ul>
-<section id="important" class="level3">
-<h3 class="anchored" data-anchor-id="important">Important</h3>
-<p>This limitation applies to <strong>all</strong> its variants, including <strong>asymmetric</strong>, <strong>quantile</strong>, <strong>time-varying parameter (TVP)</strong>, <strong>R²</strong>, and <strong>R² quantile</strong> connectedness measures.</p>
-</section>
-</section>
-<section id="minimal-demo-of-note" class="level2">
-<h2 class="anchored" data-anchor-id="minimal-demo-of-note">Minimal Demo of Note</h2>
+<section id="minimal-demonstration" class="level2">
+<h2 class="anchored" data-anchor-id="minimal-demonstration">Minimal demonstration</h2>
+<p>This example uses the <strong>ConnectednessApproach</strong> and <strong>zoo</strong> packages (<code>install.packages(c("ConnectednessApproach", "zoo"))</code>). We simulate two bivariate systems that differ only in the sign of the relationship between <code>x</code> and <code>y</code>.</p>
+<section id="positive-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="positive-correlation">1. Positive correlation</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ConnectednessApproach)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive correlation case</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2010-01-01"</span>), <span class="at">by =</span> <span class="st">"day"</span>, <span class="at">length.out =</span> n)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2010-01-01"</span>), <span class="at">by =</span> <span class="st">"day"</span>, <span class="at">length.out =</span> n)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>df_p <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>fit_p <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_p, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>dca_p <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_p<span class="sc">$</span>B,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_p<span class="sc">$</span>Q,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_p[, <span class="dv">1</span>], df_p[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>df_p <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>fit_p <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_p, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>dca_p <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_p<span class="sc">$</span>B,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_p<span class="sc">$</span>Q,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_p[, <span class="dv">1</span>], df_p[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.9310472</code></pre>
 </div>
@@ -366,23 +372,25 @@ Always consider the theoretical <strong>sign of relationships</strong> when inte
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative correlation case</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df_n <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fit_n <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_n, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>dca_n <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_n<span class="sc">$</span>B,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_n<span class="sc">$</span>Q,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_n[, <span class="dv">1</span>], df_n[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="negative-correlation" class="level3">
+<h3 class="anchored" data-anchor-id="negative-correlation">2. Negative correlation</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>df_n <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>fit_n <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_n, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>dca_n <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_n<span class="sc">$</span>B,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_n<span class="sc">$</span>Q,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_n[, <span class="dv">1</span>], df_n[, <span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.931162</code></pre>
 </div>
@@ -439,13 +447,36 @@ Always consider the theoretical <strong>sign of relationships</strong> when inte
 </table>
 </div>
 </div>
+<p>Despite opposite correlations, both systems show similar connectedness magnitudes. The connectedness table alone cannot tell the co-moving system from the hedging one; always consider the theoretical <strong>sign of relationships</strong> when interpreting results.</p>
+</section>
+</section>
+<section id="recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="recommendations">Recommendations</h2>
+<ul>
+<li>Use the connectedness approach only when the system variables have theoretically consistent relationships.</li>
+<li>Avoid mixing assets with fundamentally opposite expected signs (e.g., stock–gold) unless you explicitly address sign effects.</li>
+<li>Consider supplementing variance-based connectedness with correlation or coherence analysis to capture directionality.</li>
+<li>Always interpret connectedness in the context of economic theory and empirical sign expectations.</li>
+</ul>
+<p>This limitation applies to <strong>all</strong> variants of the approach, including <strong>asymmetric</strong>, <strong>quantile</strong>, <strong>time-varying parameter (TVP)</strong>, <strong>R²</strong> and <strong>R² quantile</strong> connectedness measures.</p>
 
 
 <!-- -->
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-diebold2014" class="csl-entry" role="listitem">
+Diebold, F. X., K. Yilmaz. (2014). On the network topology of variance decompositions: Measuring the connectedness of financial firms. <em>Journal of Econometrics</em>, <em>182</em>, (1), 119–134.
+</div>
+<div id="ref-diebold2012" class="csl-entry" role="listitem">
+Diebold, F. X., K. Yilmaz. (2012). Better to give than to receive: Predictive directional measurement of volatility spillovers. <em>International Journal of Forecasting</em>, <em>28</em>, (1), 57–66.
+</div>
+<div id="ref-pesaran1998" class="csl-entry" role="listitem">
+Pesaran, H. H., Y. Shin. (1998). Generalized impulse response analysis in linear multivariate models. <em>Economics Letters</em>, <em>58</em>, (1), 17–29.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -900,125 +931,111 @@ Always consider the theoretical <strong>sign of relationships</strong> when inte
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Connectedness Approach in Financial Systems"</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2026-01-29</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [Connectedness, Econometrics]</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="an">tags:</span><span class="co"> [VAR, variance-decomposition, correlation, systemic-risk, R]</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: false</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">  eval: true</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> 2026-09-29</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [Connectedness, Econometrics]</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "Why variance-based connectedness measures cannot tell risk transmission from hedging, with a minimal R demonstration."</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">    toc: true</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="an">execute:</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">  echo: true</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">  message: false</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">  warning: false</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Introduction</span></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>The connectedness approach is a popular framework for understanding the transmission of shocks across assets or economic variables. It is typically based on the **variance decomposition** of a vector autoregressive (VAR) model, which measures how much of the forecast error variance of one variable is explained by shocks to others.</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>While widely used, interpretation of connectedness measures requires care—especially in financial contexts where correlations (signed relationships) often guide investment and risk management decisions.</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Variance vs. Correlation: Why the Sign Matters</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>Variance and covariance are inherently **unsigned** measures of association. They capture the *magnitude* of dependence, but not its direction.</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>In contrast, **correlation** provides a signed indicator of whether assets tend to move together (positive correlation) or in opposite directions (negative correlation).</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">  freeze: auto</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>The connectedness approach <span class="co">[</span><span class="ot">@diebold2012; @diebold2014</span><span class="co">]</span> is a popular framework for understanding the transmission of shocks across assets or economic variables. It is based on the **generalized forecast error variance decomposition** <span class="co">[</span><span class="ot">@pesaran1998</span><span class="co">]</span> of a vector autoregressive (VAR) model, which measures how much of the forecast error variance of one variable is explained by shocks to others.</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>While widely used, interpretation of connectedness measures requires care—especially in financial contexts where correlations (signed relationships) often guide investment and risk management decisions.</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Variance vs. correlation: why the sign matters</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>Variance and covariance are inherently **unsigned** measures of association. They capture the *magnitude* of dependence, but not its direction. In contrast, **correlation** provides a signed indicator of whether assets tend to move together (positive correlation) or in opposite directions (negative correlation).</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>As a result, connectedness metrics—being variance-based—do not distinguish between risk comovement and hedging (safe-haven) behavior. For example:</span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>As a result, connectedness metrics—being variance-based—do not distinguish between risk comovement and hedging (safe-haven) behavior.</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>For example:</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A strong **stock–gold** connectedness does not necessarily imply risk transmission.</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>Gold may act as a safe haven, moving inversely with stocks during crises.</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Similarly, **stock–bond** or **stock–uncertainty** pairs often exhibit negative correlations.</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>Without considering the expected sign, high connectedness could be misinterpreted as contagion, when it may actually reflect diversification.</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. When Connectedness Makes Sense</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A strong **stock–gold** connectedness does not necessarily imply risk transmission. Gold may act as a safe haven, moving inversely with stocks during crises.</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Similarly, **stock–bond** or **stock–uncertainty** pairs often exhibit negative correlations. Without considering the expected sign, high connectedness could be misinterpreted as contagion, when it may actually reflect diversification.</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## When connectedness makes sense</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>The connectedness approach is most interpretable when applied to systems of similar assets, where the underlying economic drivers are expected to move them in the same direction in response to shocks. Typical examples include:</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>multiple **cryptocurrencies**;</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**equity indices** across markets;</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**interest rate** or **credit spread** series within the same region.</span>
 <span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>The connectedness approach is most interpretable when applied to systems of similar assets, where the underlying economic drivers are expected to move them in the same direction in response to shocks.</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>In such systems, a high degree of connectedness genuinely indicates **risk propagation** and **systemic linkages**.</span>
 <span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>Typical examples include:</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Minimal demonstration</span></span>
 <span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Multiple **cryptocurrencies**</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Equity indices** across markets</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>**Interest rate** or **credit spread** series within the same region</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>This example uses the **ConnectednessApproach** and **zoo** packages (<span class="in">`install.packages(c("ConnectednessApproach", "zoo"))`</span>). We simulate two bivariate systems that differ only in the sign of the relationship between <span class="in">`x`</span> and <span class="in">`y`</span>.</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1. Positive correlation</span></span>
 <span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>In such systems, a high degree of connectedness genuinely indicates **risk propagation** and **systemic linkages**.</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### Interpretation Caution  </span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>Despite opposite correlations, both systems can show similar connectedness magnitudes.  </span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>Always consider the theoretical **sign of relationships** when interpreting results.</span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Recommendations</span></span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ConnectednessApproach)</span>
 <span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the connectedness approach only when the system variables have theoretically consistent relationships.</span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid mixing assets with fundamentally opposite expected signs (e.g., stock–gold) unless you explicitly address sign effects.</span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Consider supplementing variance-based connectedness with correlation or coherence analysis to capture directionality.</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2010-01-01"</span>), <span class="at">by =</span> <span class="st">"day"</span>, <span class="at">length.out =</span> n)</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
 <span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always interpret connectedness in the context of economic theory and empirical sign expectations.</span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>df_p <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
 <span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="fu">### Important</span></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>This limitation applies to **all** its variants, including **asymmetric**, **quantile**, **time-varying parameter (TVP)**, **R²**, and **R² quantile** connectedness measures.</span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a><span class="fu">## Minimal Demo of Note</span></span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>fit_p <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_p, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>dca_p <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_p<span class="sc">$</span>B,</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_p<span class="sc">$</span>Q,</span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_p[, <span class="dv">1</span>], df_p[, <span class="dv">2</span>])</span>
 <span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ConnectednessApproach)</span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="co"># Positive correlation case</span></span>
-<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>n   <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
-<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2010-01-01"</span>), <span class="at">by =</span> <span class="st">"day"</span>, <span class="at">length.out =</span> n)</span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n)</span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
-<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>df_p <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
-<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>fit_p <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_p, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>dca_p <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_p<span class="sc">$</span>B,</span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_p<span class="sc">$</span>Q,</span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
-<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_p[, <span class="dv">1</span>], df_p[, <span class="dv">2</span>])</span>
-<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a><span class="co"># Connectedness table</span></span>
-<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dca_p<span class="sc">$</span>TABLE)</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Connectedness table</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dca_p<span class="sc">$</span>TABLE)</span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2. Negative correlation</span></span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>df_n <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>fit_n <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_n, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>dca_n <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_n<span class="sc">$</span>B,</span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_n<span class="sc">$</span>Q,</span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_n[, <span class="dv">1</span>], df_n[, <span class="dv">2</span>])</span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Connectedness table</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dca_n<span class="sc">$</span>TABLE)</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="co"># Negative correlation case</span></span>
-<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a><span class="co"># -------------------------------</span></span>
-<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">0.5</span> <span class="sc">*</span> x <span class="sc">+</span> <span class="fu">rnorm</span>(n, <span class="dv">0</span>, <span class="fl">0.2</span>)</span>
-<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>df_n <span class="ot">&lt;-</span> <span class="fu">zoo</span>(<span class="fu">cbind</span>(x, y), <span class="at">order.by =</span> idx)</span>
-<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>fit_n <span class="ot">&lt;-</span> <span class="fu">VAR</span>(df_n, <span class="at">configuration =</span> <span class="fu">list</span>(<span class="at">nlag =</span> <span class="dv">4</span>, <span class="at">method =</span> <span class="st">"pearson"</span>))</span>
-<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>dca_n <span class="ot">&lt;-</span> <span class="fu">TimeConnectedness</span>(</span>
-<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>  <span class="at">Phi         =</span> fit_n<span class="sc">$</span>B,</span>
-<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>  <span class="at">Sigma       =</span> fit_n<span class="sc">$</span>Q,</span>
-<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>  <span class="at">nfore       =</span> <span class="dv">10</span>,</span>
-<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>  <span class="at">generalized =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation</span></span>
-<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(df_n[, <span class="dv">1</span>], df_n[, <span class="dv">2</span>])</span>
-<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="co"># Connectedness table</span></span>
-<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(dca_n<span class="sc">$</span>TABLE)</span>
-<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>Despite opposite correlations, both systems show similar connectedness magnitudes. The connectedness table alone cannot tell the co-moving system from the hedging one; always consider the theoretical **sign of relationships** when interpreting results.</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a><span class="fu">## Recommendations</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the connectedness approach only when the system variables have theoretically consistent relationships.</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Avoid mixing assets with fundamentally opposite expected signs (e.g., stock–gold) unless you explicitly address sign effects.</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Consider supplementing variance-based connectedness with correlation or coherence analysis to capture directionality.</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Always interpret connectedness in the context of economic theory and empirical sign expectations.</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>This limitation applies to **all** variants of the approach, including **asymmetric**, **quantile**, **time-varying parameter (TVP)**, **R²** and **R² quantile** connectedness measures.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
